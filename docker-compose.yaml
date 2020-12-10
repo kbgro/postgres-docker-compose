@@ -1,0 +1,35 @@
+version: "3.7"
+services:
+  db:
+    image: postgres:12.5
+    restart: always
+    hostname: "postgres12"
+    env_file:
+      - db.env
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - networkpg
+
+  pgadmin:
+    image: dpage/pgadmin4:4.29
+    restart: always
+    hostname: 'pgadmin4'
+    env_file:
+      - pgadmin.env
+    ports:
+      - "5050:5050"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    networks:
+      - networkpg
+
+volumes:
+  db-data:
+  pgadmin-data:
+
+networks:
+  networkpg:
+    driver: bridge
